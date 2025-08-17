@@ -37,7 +37,7 @@ function showRandomQuotes() {
   const randomQuote = quotes[randomIndex];
   const displayQuotes = document.getElementById("quoteDisplay");
 
-  displayQuotes.textContent = `${randomQuote.text} - ${randomQuote.category}`;
+  displayQuotes.innerHTML = `${randomQuote.text} - ${randomQuote.category}`;
 
   sessionStorage.setItem("lastViewedQuote", JSON.stringify(randomQuote));
 }
