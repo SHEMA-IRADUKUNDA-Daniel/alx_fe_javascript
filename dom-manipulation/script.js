@@ -115,27 +115,36 @@ window.onload = function () {
     displayQuotes.textContent = `${parsedQuote.text} - ${parsedQuote.category}`;
   }
 };
+
+function notify(message) {
+  if (notificationDiv) {
+    notificationDiv.textContent = message;
+    setTimeout(() => (notificationDiv.textContent = ""), 3000);
+  }
+}
+
+// --- Simulate server fetch & sync ---
 const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
 
 async function fetchServerQuotes() {
   try {
     const response = await fetch(SERVER_URL);
     const serverData = await response.json();
-    return serverData.map((item) => ({
-      text: item.title,
-      category: item.body,
-    }));
+    return serverData
+      .slice(0, 3)
+      .map((item) => ({ text: item.title, category: item.body }));
   } catch (error) {
     console.error("Error fetching server data:", error);
     return [];
   }
 }
+
 async function syncWithServer() {
   const serverQuotes = await fetchServerQuotes();
   const localQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
 
+  // Merge server data with local, server takes precedence
   const mergedQuotes = [...serverQuotes];
-
   localQuotes.forEach((localQuote) => {
     const exists = serverQuotes.some(
       (sq) => sq.text === localQuote.text && sq.category === localQuote.category
@@ -143,21 +152,30 @@ async function syncWithServer() {
     if (!exists) mergedQuotes.push(localQuote);
   });
 
-  localStorage.setItem("quotes", JSON.stringify(mergedQuotes));
+  quotes = mergedQuotes;
+  saveQuotes();
   displayQuotes();
-  notifyUser("Quotes synced with server!");
-}
-function notifyUser(message) {
-  const notification = document.createElement("div");
-  notification.textContent = message;
-  notification.style.background = "#ffeb3b";
-  notification.style.padding = "8px";
-  notification.style.margin = "10px 0";
-  document.body.prepend(notification);
-
-  setTimeout(() => notification.remove(), 3000);
+  notify("🔄 Quotes synced with server!");
 }
 
-setInterval(syncWithServer, 30000);
+// --- Event Listeners ---
+generateNewCode.addEventListener("click", showRandomQuotes);
+addQuoteBtn.addEventListener("click", createAddQuoteForm);
+exportBtn.addEventListener("click", exportToJsonFile);
+importInput.addEventListener("change", importFromJsonFile);
 
-syncWithServer();
+// --- Initialize on load ---
+window.onload = function () {
+  loadQuotes();
+  displayQuotes();
+
+  const lastViewed = sessionStorage.getItem("lastViewedQuote");
+  if (lastViewed) {
+    const parsedQuote = JSON.parse(lastViewed);
+    quoteDisplay.textContent = `"${parsedQuote.text}" - ${parsedQuote.category}`;
+  }
+
+  // Periodic sync every 30s
+  syncWithServer();
+  setInterval(syncWithServer, 30000);
+};
