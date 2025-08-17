@@ -515,7 +515,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Periodic syncing every 15 seconds
+  async function syncQuotes() {
+    await fetchQuotesFromServer();
+  }
+
   setInterval(fetchQuotesFromServer, 15000);
 
   // --- Event listeners ---
