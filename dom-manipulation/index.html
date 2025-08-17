@@ -7,9 +7,10 @@
   </head>
   <body>
     <h1>Dynamic Quote Generator</h1>
+
     <div id="quoteDisplay"></div>
     <button id="newQuote">Show New Quote</button>
-    <script src="script.js"></script>
+
     <div>
       <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
       <input
@@ -17,7 +18,12 @@
         type="text"
         placeholder="Enter quote category"
       />
-      <button onclick="createAddQuoteForm()" id="addQuote">Add Quote</button>
+      <button id="addQuote">Add Quote</button>
     </div>
+
+    <button id="exportQuotes">Export Quotes (JSON)</button>
+    <input type="file" id="importFile" accept=".json" />
+
+    <script src="script.js"></script>
   </body>
 </html>
