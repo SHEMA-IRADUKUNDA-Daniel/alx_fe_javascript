@@ -494,7 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (updated) {
         saveQuotes();
-        syncNotification.textContent = "🔄 Quotes updated from server!";
+        syncNotification.textContent = "Quotes synced with server!";
         setTimeout(() => (syncNotification.textContent = ""), 3000);
       }
     } catch (err) {
@@ -519,7 +519,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await fetchQuotesFromServer();
   }
 
-  setInterval(fetchQuotesFromServer, 15000);
+  setInterval(syncQuotes, 15000);
 
   // --- Event listeners ---
   generateNewCode.addEventListener("click", showRandomQuotes);
