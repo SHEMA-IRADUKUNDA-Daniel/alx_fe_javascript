@@ -24,14 +24,23 @@ function showRandomQuotes() {
 generateNewCode.addEventListener("click", showRandomQuotes);
 
 function createAddQuoteForm() {
-  let newQuoteText = document.getElementById("newQuoteText");
-  let newQuoteCategory = document.getElementById("newQuoteCategory");
+  let newQuoteText = document.getElementById("newQuoteText").value.trim();
+  let newQuoteCategory = document
+    .getElementById("newQuoteCategory")
+    .value.trim();
 
-  newQuoteText.value.trim();
-  newQuoteCategory.value.trim();
   if (newQuoteText && newQuoteCategory) {
     quotes.push({ text: newQuoteText, category: newQuoteCategory });
-    newQuoteText.value = "";
-    newQuoteCategory.value = "";
+
+    const displayQuotes = document.getElementById("quoteDisplay");
+    const newQuoteEl = document.createElement("p");
+    newQuoteEl.textContent = `${newQuoteText} - ${newQuoteCategory}`;
+
+    displayQuotes.appendChild(newQuoteEl);
+
+    document.getElementById("newQuoteText").value = "";
+    document.getElementById("newQuoteCategory").value = "";
+  } else {
+    alert("⚠️ Please enter both a quote and a category.");
   }
 }
