@@ -23,7 +23,7 @@ function showRandomQuotes() {
 
 generateNewCode.addEventListener("click", showRandomQuotes);
 
-function addQuote() {
+function createAddQuoteForm() {
   let newQuoteText = document.getElementById("newQuoteText");
   let newQuoteCategory = document.getElementById("newQuoteCategory");
 
