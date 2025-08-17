@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!quotes.length) return;
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
-    displayQuotes.textContent = `${randomQuote.text} - ${randomQuote.category}`;
+    displayQuotes.innerHTML = `${randomQuote.text} - ${randomQuote.category}`;
     sessionStorage.setItem("lastViewedQuote", JSON.stringify(randomQuote));
   }
 
